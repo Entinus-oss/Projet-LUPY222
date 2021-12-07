@@ -6,7 +6,7 @@ import struct
 #Default values are m = 0.15 * 10**(-3) kg, l = 1.4 * 10**(-3) m, T = 3 N
 m = 0.15 * 10**(-3) #kg 
 l = 1.4 * 10**(-3) #m
-T =  1#N
+T =  3#N
 
 def frequency_from_fundamental(n, round_at=0, logs=True):
     
