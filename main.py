@@ -114,7 +114,7 @@ def main():
 
     #Add sine wave together using add method
     createdSineWave = add_sine_waves(sineWaves)
-    wavFile = write("catastrophe.wav", samplingRate, createdSineWave.astype('int16'))
+    wavFile = write("test.wav", samplingRate, createdSineWave.astype('int16'))
     #print("createdSineWave", createdSineWave)
 
     #Calculate the spectrum of createdSineWave using fft
@@ -138,7 +138,7 @@ def main():
     axs[2].set_xlim([0, xmax])
     
     #Visualize wav file 
-    framerate, frames = visualize_wav("wav/third_attempt/nonoise.wav")
+    framerate, frames = visualize_wav("test.wav")
     t_wav = np.arange(0, len(frames))/framerate
     axs[3].plot(t_wav, frames)
     axs[3].set_xlim([0, xmax])
