@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import wave
 import struct
+from scipy.io.wavfile import write
 
 #Default values are m = 0.15 * 10**(-3) kg, l = 1.4 * 10**(-3) m, T = 3 N
 m = 4.6 * 10**(-3) #kg 
@@ -62,7 +63,21 @@ def createWaveFile(name, listOfSineWave, samplingRate = 44100, logs=False):
     F.close()
     print(str(name) + ".wav successfully created!")
 
-     
+    return str(name) + ".wav"
+
+def visualize_wav(f):
+    w = wave.open(f, "rb")
+    params = w.getparams()
+    nchannels, sampwidth, framerate, nframes = params[:4]
+
+    time = np.arange(0, nframes)/framerate
+
+    Data_str = w.readframes(nframes)
+
+    Data_num = np.frombuffer(Data_str, dtype = np.int16)
+
+    return Data_num, time
+
 def main():
     samplingRate = 44100
     samplingInterval = 1/samplingRate
@@ -104,7 +119,7 @@ def main():
 
     #Add sine wave together using add method
     createdSineWave = add_sine_waves(sineWaves)
-    createWaveFile("catastrophe", createdSineWave, samplingRate=samplingRate)
+    wavFile = write("catastrophe.wav", samplingRate, createdSineWave)
     #print("createdSineWave", createdSineWave)
 
     #Calculate the spectrum of createdSineWave using fft
@@ -114,17 +129,25 @@ def main():
     waveFromIfft = np.fft.ifft2(sineWaves)
     #print(waveFromIfft)
 
-    fig, axs = plt.subplots(3)
+    xmax = 0.02
+    
+    fig, axs = plt.subplots(4)
     axs[0].plot(t, createdSineWave)
-    axs[0].set_xlim(0, 0.1)
+    axs[0].set_xlim([0, xmax])
 
     axs[1].plot(np.real(spectrum_fft))
     axs[1].set_ylim(0)
 
     for wave in sineWaves:
         axs[2].plot(t, wave)
-    axs[2].set_xlim(0, 0.01)
+    axs[2].set_xlim([0, xmax])
+    
+    #Visualize wav file 
+    dataNum, t2 = visualize_wav("catastrophe.wav")
+    axs[3].plot(t, dataNum)
+    axs[3].set_xlim([0, xmax])
     plt.show()
+
 
 if __name__ == "__main__":
     main()
