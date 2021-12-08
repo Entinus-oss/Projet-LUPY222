@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import wave
 import struct
-from scipy.io.wavfile import write
+from scipy.io.wavfile import write, read
 
 #Default values are m = 0.15 * 10**(-3) kg, l = 1.4 * 10**(-3) m, T = 3 N
 m = 4.6 * 10**(-3) #kg 
@@ -69,17 +69,9 @@ def visualize_wav(f):
 
     """Decompose wav file into int16 array. Return a time linspace to plot and the array"""
 
-    w = wave.open(f, "rb")
-    params = w.getparams()
-    nchannels, sampwidth, framerate, nframes = params[:4]
+    framerate, frames = read(f)
 
-    time = np.arange(0, nframes)/framerate
-
-    Data_str = w.readframes(nframes)
-
-    Data_num = np.frombuffer(Data_str, dtype = np.int16)
-
-    return Data_num, time
+    return framerate, frames
 
 def main():
     samplingRate = 44100
@@ -100,7 +92,7 @@ def main():
     for i in range(nLowHarmonics):
         #create sine wave from lower frequencies
         frequencies.append(frequency_from_fundamental(i+1, round_at=0))
-        lowFrequencySineWaves[i] = np.exp(-amplitudelow *i) * np.sin(2*np.pi*frequency_from_fundamental(i+1, round_at=0, logs=True) * t)
+        lowFrequencySineWaves[i] = np.exp(-amplitudelow *i) * np.sin(2*np.pi * frequency_from_fundamental(i+1, round_at=0, logs=True) * t)
         #plt.plot(t, sine_waves[i])
     #print("lowFrequencySineWaves", lowFrequencySineWaves)
     
@@ -122,7 +114,7 @@ def main():
 
     #Add sine wave together using add method
     createdSineWave = add_sine_waves(sineWaves)
-    wavFile = write("catastrophe.wav", samplingRate, createdSineWave.astype('int32'))
+    wavFile = write("catastrophe.wav", samplingRate, createdSineWave.astype('int16'))
     #print("createdSineWave", createdSineWave)
 
     #Calculate the spectrum of createdSineWave using fft
@@ -132,7 +124,7 @@ def main():
     waveFromIfft = np.fft.ifft2(sineWaves)
     #print(waveFromIfft)
 
-    xmax = 0.02
+    xmax = 0.01
     
     fig, axs = plt.subplots(4)
     axs[0].plot(t, createdSineWave)
@@ -146,8 +138,9 @@ def main():
     axs[2].set_xlim([0, xmax])
     
     #Visualize wav file 
-    dataNum, t2 = visualize_wav("catastrophe.wav")
-    axs[3].plot(t2, dataNum)
+    framerate, frames = visualize_wav("wav/third_attempt/nonoise.wav")
+    t_wav = np.arange(0, len(frames))/framerate
+    axs[3].plot(t_wav, frames)
     axs[3].set_xlim([0, xmax])
     plt.show()
 
