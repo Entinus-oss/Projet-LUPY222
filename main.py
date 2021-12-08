@@ -66,6 +66,9 @@ def createWaveFile(name, listOfSineWave, samplingRate = 44100, logs=False):
     return str(name) + ".wav"
 
 def visualize_wav(f):
+
+    """Decompose wav file into int16 array. Return a time linspace to plot and the array"""
+
     w = wave.open(f, "rb")
     params = w.getparams()
     nchannels, sampwidth, framerate, nframes = params[:4]
@@ -119,7 +122,7 @@ def main():
 
     #Add sine wave together using add method
     createdSineWave = add_sine_waves(sineWaves)
-    wavFile = write("catastrophe.wav", samplingRate, createdSineWave)
+    wavFile = write("catastrophe.wav", samplingRate, createdSineWave.astype('int32'))
     #print("createdSineWave", createdSineWave)
 
     #Calculate the spectrum of createdSineWave using fft
@@ -144,7 +147,7 @@ def main():
     
     #Visualize wav file 
     dataNum, t2 = visualize_wav("catastrophe.wav")
-    axs[3].plot(t, dataNum)
+    axs[3].plot(t2, dataNum)
     axs[3].set_xlim([0, xmax])
     plt.show()
 
