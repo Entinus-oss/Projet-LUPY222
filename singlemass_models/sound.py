@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.io.wavfile import write, read
 
 alpha = 0.32
 beta = 100
 gamma = 0.78
 delta = 0.97
-
 
 def derivee(u, t):
     '''
@@ -19,7 +19,7 @@ def derivee(u, t):
     du[0] = u[1]
     du[1] = -alpha * (1 + beta * u[0]**2) * u[1] - u[0] + (gamma * u[0])/(1 + u[0] + delta * u[1])
 
-    return du 
+    return du
 
 def RK4(derivee, initial_values, step, t):
     
@@ -44,18 +44,25 @@ def RK4(derivee, initial_values, step, t):
 
 def main():
     
-    t = np.linspace(0, 100, 100)
-    step = 0.2
+    samplingRate = 44100
+    amplitude = 10000
 
-    initial_values = [0, 0]
+    t = np.arange(0, 1, 1/samplingRate)
+    step = 0.01
 
-    for i in range(10):
-        deplacement = RK4(derivee, [i/10, i/10], alpha, beta, gamma, delta, step, t)
-        plt.plot(t, deplacement, label=str(round(i/10, 2)))
+    initial_values = [0.01, 0.6]
+
+    deplacement = RK4(derivee, initial_values, step, t)
+    wavData = amplitude * deplacement
+
+    print(wavData)
+
+    wavFile = write("wav/singlemass_models/test1.wav", samplingRate, wavData.astype("float32"))
+    plt.plot(t, wavData)
 
     plt.xlabel("time (s)")
     plt.ylabel("déplacement du ressort (cm)")
-    plt.ylim(-1, 1)
+    #plt.ylim(-1, 1)
     plt.legend()
     plt.show()
 
@@ -63,4 +70,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
