@@ -47,19 +47,20 @@ def main():
     num = 50
     t = np.linspace(0, 1, num)
     step = 0.01
-
+    
     data = np.empty((num, num, 2, num))
     print("data shape", data.shape)
     #print("data", data)
 
-    for x in range(num):
-        for v in range(num):
+    for x in range(-num, 0):
+        for v in range(-num, 0):
+
             initial_values = [x/num, v/num]
             data[x][v] = RK4(derivee, initial_values, step, t)
         
-            plt.plot(data[x, v, 0], data[x, v, 1], 'k,', markersize=1)
-            plt.plot(initial_values[0], initial_values[1], 'r.', markersize=2)
-            plt.plot(data[x, v, 0, -1], data[x, v, 1, -1], 'b.', markersize=4)
+            plt.plot(data[x, v, 0], data[x, v, 1], 'k,', markersize=1) #trajectoire
+            plt.plot(initial_values[0], initial_values[1], 'r.', markersize=2) #conditions initiales
+            plt.plot(data[x, v, 0, -1], data[x, v, 1, -1], 'b.', markersize=4) #points finals
 
             #print("#####", data[i][j])
 
@@ -68,6 +69,8 @@ def main():
     
     plt.xlabel("déplacement (cm)")
     plt.ylabel("vitesse (cm/s)")
+    plt.ylim(-1, 1)
+    plt.xlim(-1, 1)
     plt.legend()
     plt.show()
 
