@@ -1,12 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io.wavfile import write, read
+import numba
 
-alpha = 0.32
+alpha = 0.12
 beta = 100
-gamma = 0.78
-delta = 0.97
+gamma = 0.1
+delta = 0.99
 
+@numba.jit(cache = True)
 def derivee(u, t):
     '''
         Soit u = (u0, u1)
@@ -21,6 +23,7 @@ def derivee(u, t):
 
     return du
 
+@numba.jit(cache = True)
 def RK4(derivee, initial_values, step, t):
     
     """Méthodes de Runge-Kutta d'ordre 4. Renvoie un tableau numpy 
@@ -42,6 +45,7 @@ def RK4(derivee, initial_values, step, t):
     # Argument de sortie
     return v
 
+@numba.jit(cache = True)
 def main():
     
     num = 100

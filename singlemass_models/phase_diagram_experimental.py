@@ -2,10 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io.wavfile import write, read
 
-alpha = 0.32
+alpha = 0.12
 beta = 100
-gamma = 0.78
-delta = 0.97
+gamma = 0.1
+delta = 0.99
 
 def derivee(u, t):
     '''
