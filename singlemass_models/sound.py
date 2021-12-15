@@ -2,10 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io.wavfile import write, read
 
-alpha = 0.32
-beta = 10
-gamma = 0.28
-delta = 0.97
+alpha = 0.12
+beta = 100
+gamma = 0.39 # ++ frequence
+delta = 0.99
 
 def derivee(u, t):
     '''
@@ -57,7 +57,7 @@ def main():
 
     print(wavData)
 
-    wavFile = write("wav/singlemass_models/test1.wav", samplingRate, wavData.astype("float32"))
+    wavFile = write("wav/singlemass_models/nonlinear_viscous_initial_pressure/test.wav", samplingRate, wavData.astype("float32"))
     plt.plot(t, wavData)
 
     plt.xlabel("time (s)")

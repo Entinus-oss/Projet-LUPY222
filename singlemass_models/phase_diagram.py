@@ -44,7 +44,7 @@ def RK4(derivee, initial_values, step, t):
 
 def main():
     
-    num = 100
+    num = 50
     t = np.linspace(0, 1, num)
     step = 0.01
 
@@ -54,15 +54,18 @@ def main():
 
     for x in range(num):
         for v in range(num):
-            initial_values = [-x/num, -v/num]
+            initial_values = [x/num, v/num]
             data[x][v] = RK4(derivee, initial_values, step, t)
-            plt.plot(data[x, v, 0], data[x, v, 1], 'k,')
+        
+            plt.plot(data[x, v, 0], data[x, v, 1], 'k,', markersize=1)
+            plt.plot(initial_values[0], initial_values[1], 'r.', markersize=2)
+            plt.plot(data[x, v, 0, -1], data[x, v, 1, -1], 'b.', markersize=4)
+
             #print("#####", data[i][j])
 
     print("data", data[:, :, 0])
 
     
-
     plt.xlabel("déplacement (cm)")
     plt.ylabel("vitesse (cm/s)")
     plt.legend()
