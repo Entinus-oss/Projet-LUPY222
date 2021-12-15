@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 from scipy.io.wavfile import write, read
 
 alpha = 0.32
-beta = 100
-gamma = 0.78
+beta = 10
+gamma = 0.28
 delta = 0.97
 
 def derivee(u, t):
@@ -50,7 +50,7 @@ def main():
     t = np.arange(0, 1, 1/samplingRate)
     step = 0.01
 
-    initial_values = [0.01, 0.6]
+    initial_values = [0.1, 0]
 
     deplacement = RK4(derivee, initial_values, step, t)
     wavData = amplitude * deplacement

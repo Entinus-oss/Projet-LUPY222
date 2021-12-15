@@ -54,7 +54,7 @@ def main():
 
     for x in range(num):
         for v in range(num):
-            initial_values = [x/num, v/num]
+            initial_values = [-x/num, -v/num]
             data[x][v] = RK4(derivee, initial_values, step, t)
             plt.plot(data[x, v, 0], data[x, v, 1], 'k,')
             #print("#####", data[i][j])

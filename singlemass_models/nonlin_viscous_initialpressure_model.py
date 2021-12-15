@@ -47,10 +47,10 @@ def main():
     t = np.linspace(0, 100, 100)
     step = 0.2
 
-    initial_values = [0, 0]
+    initial_values = [0.1, 0]
 
     for i in range(10):
-        deplacement = RK4(derivee, [i/5, i/5], step, t)
+        deplacement = RK4(derivee, [i/20, 0], step, t)
         plt.plot(t, deplacement, label=str(round(i/10, 2)))
 
     plt.xlabel("time (s)")
