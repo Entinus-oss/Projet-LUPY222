@@ -52,8 +52,8 @@ def main():
     print("data shape", data.shape)
     #print("data", data)
 
-    for x in range(-num, 0):
-        for v in range(-num, 0):
+    for x in range(-num, num):
+        for v in range(-num, num):
 
             initial_values = [x/num, v/num]
             data[x][v] = RK4(derivee, initial_values, step, t)
