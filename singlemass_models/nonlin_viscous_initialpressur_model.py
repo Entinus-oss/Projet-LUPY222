@@ -50,7 +50,7 @@ def main():
     initial_values = [0, 0]
 
     for i in range(10):
-        deplacement = RK4(derivee, [i/10, i/10], alpha, beta, gamma, delta, step, t)
+        deplacement = RK4(derivee, [i/5, i/5], step, t)
         plt.plot(t, deplacement, label=str(round(i/10, 2)))
 
     plt.xlabel("time (s)")
