@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.io.wavfile import write, read
 
-alpha = 0.12
+
+alpha = 0.32
 beta = 100
-gamma = 0.1
-delta = 0.99
+gamma = 0.78    
+delta = 0.97
 
 def derivee(u, t):
     '''
@@ -42,31 +42,40 @@ def RK4(derivee, initial_values, step, t):
     # Argument de sortie
     return v
 
-def main():
+def computePhaseData(num, t, step):
     
-    num = 100
-    t = np.linspace(0, 1, num)
-    step = 0.01
+    """Compute RK4 method numberOfIteration times with different values of
+    speed and displacement. t must be a numpy array"""
     
     data = np.empty((num, num, 2, num))
     print("data shape", data.shape)
     #print("data", data)
 
-    for x in range(-num, num):
-        for v in range(-num, num):
+    for x in range(0, num):
+        for v in range(0, num):
 
             initial_values = [x/num, v/num]
             data[x][v] = RK4(derivee, initial_values, step, t)
-        
-            plt.plot(data[x, v, 0], data[x, v, 1], 'k.', markersize=0.5) #trajectoire
-            plt.plot(initial_values[0], initial_values[1], 'r.', markersize=2) #conditions initiales
-            plt.plot(data[x, v, 0, -1], data[x, v, 1, -1], 'b.', markersize=4) #points finals
-
-            #print("#####", data[i][j])
-
-    print("data", data[:, :, 0])
-
     
+    return data
+
+def main():
+    
+    step = 1
+
+    start = 0
+    end = 100
+    t = np.arange(start, end, step)
+
+    data = computePhaseData(t.size, t, step)
+
+    for i in range(0, t.size):
+        for j in range(0, t.size):
+
+            plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=0.5) #trajectoire
+            #plt.plot(initial_values[0], initial_values[1], 'r.', markersize=2) #conditions initiales
+            plt.plot(data[i, j, 0, -1], data[i, j, 1, -1], 'b.', markersize=4) #points finals
+        
     plt.xlabel("déplacement (cm)")
     plt.ylabel("vitesse (cm/s)")
     plt.ylim(-1, 1)
