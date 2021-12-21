@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 alpha = 0.32
 beta = 100
 gamma = 0.78    
@@ -48,7 +47,7 @@ def computePhaseData(num, t, step):
     speed and displacement. t must be a numpy array"""
     
     data = np.empty((num, num, 2, num))
-    print("data shape", data.shape)
+    #print("data shape", data.shape)
     #print("data", data)
 
     for x in range(-num, num):
