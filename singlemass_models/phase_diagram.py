@@ -17,7 +17,7 @@ def derivee(u, t):
     
     # Dérivée de la vitesse
     du[0] = u[1]
-    du[1] = -alpha * (1 + beta * u[0]**2) * u[1] - u[0] + (gamma * u[0])/(1 + u[0] + delta * u[1])
+    du[1] = -alpha * (1 + beta * u[0]**2) * u[1] - u[0] + (gamma * u[1])/(1 + u[0] + delta * u[1])
 
     return du
 
@@ -44,23 +44,28 @@ def RK4(derivee, initial_values, step, t):
 
 def main():
     
-    num = 100
-    t = np.linspace(0, 1, num)
-    step = 0.01
-    
+    num = 1000 #nombre de points
+    t = np.linspace(0, 1, num) #timeline
+    step = 1/num #interval entre les diffs valeurs de u et v
+
     data = np.empty((num, num, 2, num))
     print("data shape", data.shape)
     #print("data", data)
 
-    for x in range(-num, num):
-        for v in range(-num, num):
+    initial_values = np.linspace(-1, 1, num)
 
-            initial_values = [x/num, v/num]
-            data[x][v] = RK4(derivee, initial_values, step, t)
+    for i in range(0, num):
+
+        u = initial_values[i]
+
+        for j in range(0, num):
+            
+            v = initial_values[j]
+
+            data[i][j] = RK4(derivee, [u, v], step, t)
         
-            plt.plot(data[x, v, 0], data[x, v, 1], 'k.', markersize=0.5) #trajectoire
-            plt.plot(initial_values[0], initial_values[1], 'r.', markersize=2) #conditions initiales
-            plt.plot(data[x, v, 0, -1], data[x, v, 1, -1], 'b.', markersize=4) #points finals
+            plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=0.5) #trajectoire
+            plt.plot(data[i, j, 0, -1], data[i, j, 1, -1], 'b.', markersize=4) #points finals
 
             #print("#####", data[i][j])
 

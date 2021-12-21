@@ -16,7 +16,7 @@ def derivee(u, t):
     
     # Dérivée de la vitesse
     du[0] = u[1]
-    du[1] = -alpha * (1 + beta * u[0]**2) * u[1] - u[0] + (gamma * u[0])/(1 + u[0] + delta * u[1])
+    du[1] = -alpha * (1 + beta * u[0]**2) * u[1] - u[0] + (gamma * u[1])/(1 + u[0] + delta * u[1])
 
     return du
 
@@ -61,7 +61,7 @@ def computePhaseData(num, t, step):
 
 def main():
     
-    step = 1
+    step = 0.1
 
     start = 0
     end = 10
@@ -69,8 +69,8 @@ def main():
 
     data = computePhaseData(t.size, t, step)
 
-    for x in range(-t.size, t.size):
-        for v in range(-t.size, t.size):
+    for x in range(0, 2 * t.size):
+        for v in range(0, 2 * t.size):
             if x==0 or v==0:
                 continue
             plt.plot(data[x, v, 0], data[x, v, 1], 'k.', markersize=0.5) #trajectoire

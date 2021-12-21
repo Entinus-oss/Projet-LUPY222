@@ -19,7 +19,7 @@ def derivee(u, t):
     
     # Dérivée de la vitesse
     du[0] = u[1]
-    du[1] = -alpha * (1 + beta * u[0]**2) * u[1] - u[0] + (gamma * u[0])/(1 + u[0] + delta * u[1])
+    du[1] = -alpha * (1 + beta * u[0]**2) * u[1] - u[0] + (gamma * u[1])/(1 + u[0] + delta * u[1])
 
     return du
 
