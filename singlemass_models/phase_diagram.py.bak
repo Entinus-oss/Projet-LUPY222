@@ -56,11 +56,11 @@ def main():
     for i in range(0, num):
 
         u = initial_values[i]
-        print(u, "################")
+
         for j in range(0, num):
             
             v = initial_values[j]
-            print(u, v)
+
             data[i][j] = RK4(derivee, [u, v], step, t)
         
             plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=0.5) #trajectoire
