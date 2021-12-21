@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+import timeit
 
 alpha = 0.32
 beta = 100
@@ -61,15 +61,20 @@ def computePhaseData(num, t, step):
     return data
 
 def main():
-    
-    step = 1
+    starttime = timeit.default_timer()
+    print("1 The start time is :",starttime)
 
+    step = 0.1
     start = 0
     end = 10
     t = np.arange(start, end, step)
 
     data = computePhaseData(t.size, t, step)
 
+    print("1 The time difference is :", timeit.default_timer() - starttime)
+
+    starttime = timeit.default_timer()
+    print("2 The start time is :",starttime)
     for x in range(-t.size, t.size):
         for v in range(-t.size, t.size):
             if x==0 or v==0:
@@ -77,7 +82,7 @@ def main():
             plt.plot(data[x, v, 0], data[x, v, 1], 'k.', markersize=0.5) #trajectoire
             #plt.plot(initial_values[0], initial_values[1], 'r.', markersize=2) #conditions initiales
             plt.plot(data[x, v, 0, -1], data[x, v, 1, -1], 'b.', markersize=4) #points finals
-
+    print("2 The time difference is :", timeit.default_timer() - starttime)
     plt.xlabel("déplacement (cm)")
     plt.ylabel("vitesse (cm/s)")
     plt.ylim(-1, 1)
@@ -85,7 +90,6 @@ def main():
     plt.grid()
     plt.legend()
     plt.show()
-
     return 0
 
 if __name__ == "__main__":
