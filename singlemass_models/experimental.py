@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 alpha = 0.32
 beta = 100
-gamma = 0.78    
+gamma = 0.78
 delta = 0.97
 
 def derivee(u, t):
@@ -41,47 +41,46 @@ def RK4(derivee, initial_values, step, t):
     # Argument de sortie
     return v
 
-def computePhaseData(num, t, step):
-    
-    """Compute RK4 method numberOfIteration times with different values of
-    speed and displacement. t must be a numpy array"""
-    
-    data = np.empty((num, num, 2, num))
-    #print("data shape", data.shape)
-    #print("data", data)
-
-    for x in range(-num, num):
-        for v in range(-num, num):
-            if x==0 or v==0:
-                continue
-            initial_values = [x/num, v/num]
-            data[x][v] = RK4(derivee, initial_values, step, t)
-    
-    return data
-
 def main():
     
     step = 0.1
 
     start = 0
-    end = 10
+    end = 20
     t = np.arange(start, end, step)
+    num = t.size
 
-    data = computePhaseData(t.size, t, step)
+    data = np.empty((num, num, 2, num))
+    print("data shape", data.shape)
+    #print("data", data)
+    umin, umax = 0.45, 0.
+    vmin, vmax = -0.5, 0.5
 
-    for x in range(0, 2 * t.size):
-        for v in range(0, 2 * t.size):
-            if x==0 or v==0:
-                continue
-            plt.plot(data[x, v, 0], data[x, v, 1], 'k.', markersize=0.5) #trajectoire
-            #plt.plot(initial_values[0], initial_values[1], 'r.', markersize=2) #conditions initiales
-            plt.plot(data[x, v, 0, -1], data[x, v, 1, -1], 'b.', markersize=4) #points finals
+    initial_u_values = np.linspace(umin, umax, num)
+    initial_v_values = np.array([-1]*num)
+
+    for i in range(0, num):
+
+        u = initial_u_values[i]
+
+        for j in range(0, num):
+
+            v = initial_v_values[j]
+
+            print(u, v)
+
+            data[i][j] = RK4(derivee, [u, v], step, t)
+
+            plt.plot(u, v, 'r.', markersize=4) #initials values
+            plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=1) #trajectoire
+            plt.plot(data[i, j, 0, -1], data[i, j, 1, -1], 'b.', markersize=4) #points finals
+
+    #print("data", data[:, :, 0])
 
     plt.xlabel("déplacement (cm)")
     plt.ylabel("vitesse (cm/s)")
     plt.ylim(-1, 1)
     plt.xlim(-1, 1)
-    plt.grid()
     plt.legend()
     plt.show()
 

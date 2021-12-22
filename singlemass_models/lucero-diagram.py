@@ -49,14 +49,15 @@ def RK4(derivee, initial_values, step, t, toList=False):
 
 def main():
     
-    step = 0.1
+    step = 0.01
 
     start = 0
-    end = 10
+    end = 20
     t = np.arange(start, end, step)
 
-    data = [0] * 5
-    initial_values = [0] * 5
+    nlines = 7
+    data = [0] * nlines
+    initial_values = [0] * nlines
 
     initial_values[0] = [1, -0.05]
     data[0] = RK4(derivee, initial_values[0], step, t, toList=True)
@@ -64,7 +65,7 @@ def main():
     initial_values[1] = [-0.35, 1]
     data[1] = RK4(derivee, initial_values[1], step, t, toList=True)
 
-    initial_values[2] = [0.5, -1]
+    initial_values[2] = [0.47, -1]
     data[2] = RK4(derivee, initial_values[2], step, t, toList=True)
 
     initial_values[3] = [0.49, -1]
@@ -73,9 +74,16 @@ def main():
     initial_values[4] = [-1, 0.05]
     data[4] = RK4(derivee, initial_values[4], step, t, toList=True)
 
-    for i in range(len(data)):
-        plt.plot(data[i][0], data[i][1], 'k-')
+    initial_values[5] = [0.489, -1]
+    data[5] = RK4(derivee, initial_values[5], step, t, toList=True)
 
+    initial_values[6] = [0.499, -1]
+    data[6] = RK4(derivee, initial_values[6], step, t, toList=True)
+
+    for i in range(len(data)):
+        plt.plot(data[i][0], data[i][1], '-', label=str(initial_values[i]))
+
+    plt.plot([-1, 0], [0, -1], 'r--', label="limite")
     print(data)
     plt.xlabel("u")
     plt.ylabel("v")
