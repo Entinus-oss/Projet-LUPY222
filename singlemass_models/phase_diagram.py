@@ -59,8 +59,8 @@ def main():
         u = initial_values[i]
 
         for j in range(0, num):
-            
             v = initial_values[j]
+            print(u, v)
 
             data[i][j] = RK4(derivee, [u, v], step, t)
         
