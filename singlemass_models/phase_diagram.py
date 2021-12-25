@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 alpha = 0.32
 beta = 100
-gamma = 0.78
+gamma = 0.6
 delta = 0.97
 
 def derivee(u, t):

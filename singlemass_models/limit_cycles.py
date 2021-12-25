@@ -40,8 +40,6 @@ def RK4(derivee, initial_values, param, step, t):
 def solve_edf(initial_values, param, num, step, t):
     
     data = np.empty([num, num, 2, num])
-    print("data shape", data.shape)
-    print("data", data)
 
     for i in range(num):
 
@@ -67,11 +65,11 @@ def main():
     alpha = 0.32
     beta = 100
     gamma = 0.78
-    delta = 0.1
+    delta = 0.97
 
     param = np.array([alpha, beta, delta, gamma])
 
-    step = 0.1
+    step = 1
 
     start = 0
     end = 10
