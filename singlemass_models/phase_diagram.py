@@ -67,7 +67,7 @@ def main():
             data[i][j] = RK4(derivee, [u, v], step, t)
 
             #plt.plot(u, v, 'r.', markersize=4) #initials values
-            plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=1) #trajectoire
+            #plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=1) #trajectoire
             plt.plot(data[i, j, 0, -1], data[i, j, 1, -1], 'b.', markersize=4) #points finals
 
     print("data", data[:, :, 0])
