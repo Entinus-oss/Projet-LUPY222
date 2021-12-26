@@ -54,7 +54,7 @@ def main():
     nb_iter = 10
     gamma_values = np.round(np.linspace(0, 1, nb_iter), 2)
 
-    step = 0.1
+    step = 0.2  
 
     start = 0
     end = 20
@@ -69,24 +69,30 @@ def main():
 
     fig = plt.figure(figsize = (10, 10))
     ax = fig.add_subplot(111, projection = '3d')
-
+    
+    plot_counter = 0
+    total_plot = nb_iter * num * num
+    
     for k in range(nb_iter):
 
         param[3] = gamma_values[k]
-
+        
         for i in range(0, num):
 
             u = initial_values[i]
             for j in range(0, num):
+                
                 v = initial_values[j]
-                print(u, v, param[3])
+                #print(u, v, param[3])
 
                 data[i][j] = RK4(derivee, [u, v], param, step, t)
 
                 #plt.plot(u, v, 'r.', markersize=4) #initials values
                 #plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=1) #trajectoire
                 ax.plot3D(data[i, j, 0, -1], data[i, j, 1, -1], param[3], 'b.', markersize=4) #points finals
-
+                plot_counter += 1
+                print(plot_counter, '/', total_plot, end='\r')
+                
     print("data", data[:, :, 0])
 
     

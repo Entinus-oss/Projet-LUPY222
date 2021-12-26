@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 alpha = 0.32
 beta = 100
-gamma = 0.2    
+gamma = 0.78    
 delta = 0.97
 
 def derivee(u, t):
@@ -55,33 +55,17 @@ def main():
     end = 20
     t = np.arange(start, end, step)
 
-    nlines = 7
+    nlines = 1
     data = [0] * nlines
     initial_values = [0] * nlines
 
-    initial_values[0] = [1, -0.05]
+    initial_values[0] = [0.495, -1]
     data[0] = RK4(derivee, initial_values[0], step, t, toList=True)
 
-    initial_values[1] = [-0.35, 1]
-    data[1] = RK4(derivee, initial_values[1], step, t, toList=True)
-
-    initial_values[2] = [0.47, -1]
-    data[2] = RK4(derivee, initial_values[2], step, t, toList=True)
-
-    initial_values[3] = [0.49, -1]
-    data[3] = RK4(derivee, initial_values[3], step, t, toList=True)
-
-    initial_values[4] = [-1, 0.05]
-    data[4] = RK4(derivee, initial_values[4], step, t, toList=True)
-
-    initial_values[5] = [0.489, -1]
-    data[5] = RK4(derivee, initial_values[5], step, t, toList=True)
-
-    initial_values[6] = [0.499, -1]
-    data[6] = RK4(derivee, initial_values[6], step, t, toList=True)
-
     for i in range(len(data)):
+        plt.plot(initial_values[i][0], initial_values[i][1], 'r.', label='start')
         plt.plot(data[i][0], data[i][1], '-', label=str(initial_values[i]))
+        plt.plot(data[i][0][-1], data[i][1][-1], 'b.', label='end')
 
     plt.plot([-1, 0], [0, -1], 'r--', label="limite")
     print(data)

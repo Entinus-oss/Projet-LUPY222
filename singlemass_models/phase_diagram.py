@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 alpha = 0.32
 beta = 100
-gamma = 0.6
+gamma = 0.78
 delta = 0.97
 
 def derivee(u, t):
@@ -72,7 +72,7 @@ def main():
 
     print("data", data[:, :, 0])
 
-    
+
     plt.xlabel("déplacement (cm)")
     plt.ylabel("vitesse (cm/s)")
     plt.ylim(-1, 1)
