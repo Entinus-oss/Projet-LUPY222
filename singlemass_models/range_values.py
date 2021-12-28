@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 alpha = 0.32
-beta = 100
-gamma = 0.78
+beta = 1
+gamma = 0.4
 delta = 0.97
 
 def derivee(u, t):
@@ -43,10 +43,10 @@ def RK4(derivee, initial_values, step, t):
 
 def main():
     
-    step = 1
+    step = 0.5
 
     start = 0
-    end = 20
+    end = 40
     t = np.arange(start, end, step)
     num = t.size
 
@@ -54,7 +54,7 @@ def main():
     print("data shape", data.shape)
     #print("data", data)
     umin, umax = -0.1, 0.1
-    vmin, vmax = -0.5, 0.5
+    vmin, vmax = -0.1, 0.1
 
     initial_u_values = np.linspace(umin, umax, num)
     initial_v_values = np.linspace(vmin, vmax, num)
@@ -72,7 +72,7 @@ def main():
             data[i][j] = RK4(derivee, [u, v], step, t)
 
             plt.plot(u, v, 'r.', markersize=4) #initials values
-            plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=1) #trajectoire
+            #plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=1) #trajectoire
             plt.plot(data[i, j, 0, -1], data[i, j, 1, -1], 'b.', markersize=4) #points finals
 
     #print("data", data[:, :, 0])
@@ -81,7 +81,6 @@ def main():
     plt.ylabel("vitesse (cm/s)")
     plt.ylim(-1, 1)
     plt.xlim(-1, 1)
-    plt.legend()
     plt.show()
 
     return 0

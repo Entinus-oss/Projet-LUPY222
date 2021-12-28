@@ -51,13 +51,13 @@ def main():
 
     param = np.array([alpha, beta, delta, gamma])
 
-    nb_iter = 10
+    nb_iter = 40
     gamma_values = np.round(np.linspace(0, 1, nb_iter), 2)
 
-    step = 0.2  
+    step = 1  
 
     start = 0
-    end = 20
+    end = 40
     t = np.arange(start, end, step)
     num = t.size
 
@@ -89,18 +89,20 @@ def main():
 
                 #plt.plot(u, v, 'r.', markersize=4) #initials values
                 #plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=1) #trajectoire
-                ax.plot3D(data[i, j, 0, -1], data[i, j, 1, -1], param[3], 'b.', markersize=4) #points finals
+                ax.plot3D(param[3], data[i, j, 0, -1], data[i, j, 1, -1], 'b.') #points finals
                 plot_counter += 1
-                print(plot_counter, '/', total_plot, end='\r')
-                
-    print("data", data[:, :, 0])
-
+                print("plotted :", plot_counter, '/', total_plot, end='\r')
     
-    plt.xlabel("déplacement (cm)")
-    plt.ylabel("vitesse (cm/s)")
-    plt.ylim(-1, 1)
-    plt.xlim(-1, 1)
-    plt.legend()
+    print("plotting ...")
+
+    ax.set_xlabel(r"$\lambda$")
+    ax.set_ylabel(r"$u$")
+    ax.set_zlabel(r"$v$")
+
+    ax.set_xlim(0, 1)
+    ax.set_ylim(-1, 1)
+    ax.set_zlim(-1, 1)
+
     plt.show()
 
     return 0

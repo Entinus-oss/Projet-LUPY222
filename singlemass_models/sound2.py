@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.io.wavfile import write, read
 
 M, B, K = 0.476, 100, 200000 #Mass g/cm^2 Damping dyne s/cm^3 Stiffness dyne/cm^3
 x0, eta = 1 * 10 ** -1, 10000 #cm, /cm/cm phenomenological nonlinear coefficient
@@ -14,8 +13,6 @@ beta = x0 ** 2 * eta
 gamma = 2 * tau * Pl / (x0 * np.sqrt(M * K)) # ++ frequence
 delta = tau * np.sqrt(K / M)
 
-print(alpha, beta, gamma, delta)
-
 def derivee(u, t):
     '''
         Soit u = (u0, u1)
@@ -28,7 +25,7 @@ def derivee(u, t):
     du[0] = u[1]
     du[1] = -alpha * (1 + beta * u[0]**2) * u[1] - u[0] + (gamma * u[1])/(1 + u[0] + delta * u[1])
 
-    return du
+    return du 
 
 def RK4(derivee, initial_values, step, t):
     
@@ -53,27 +50,24 @@ def RK4(derivee, initial_values, step, t):
 
 def main():
     
-    samplingRate = 44100
-    amplitude = 10000
+    t = np.arange(0, 100, 1)
 
-    step = 0.1
-    start = 0
-    end = 30
-    t = np.arange(start, end, step)
+    step = 0.5
 
-    initial_values = [-0.35, 1]
-
+    initial_values = [0.1, 0]
+    
     deplacement = RK4(derivee, initial_values, step, t)
-    wavData = amplitude * deplacement
 
-    wavFile = write("wav/singlemass_models/nonlinear_viscous_initial_pressure/test.wav", samplingRate, wavData.astype("float32"))
-    plt.plot(t, wavData)
+    plt.plot(t, deplacement)
 
-    plt.xlabel("t")
-    plt.ylabel("u")
+    plt.xlabel("time (s)")
+    plt.ylabel("déplacement du ressort (cm)")
+    plt.ylim(-1, 1)
+    plt.legend()
     plt.show()
 
     return 0
 
 if __name__ == "__main__":
     main()
+    

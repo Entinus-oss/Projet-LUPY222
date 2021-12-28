@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 alpha = 0.32
-beta = 100
-gamma = 0.78    
+beta = 1
+gamma = 0.4 
 delta = 0.97
 
 def derivee(u, t):
@@ -52,20 +52,38 @@ def main():
     step = 0.01
 
     start = 0
-    end = 20
+    end = 40
     t = np.arange(start, end, step)
 
-    nlines = 1
+    nlines = 7
     data = [0] * nlines
     initial_values = [0] * nlines
 
-    initial_values[0] = [0.495, -1]
+    initial_values[0] = [0, 0]
     data[0] = RK4(derivee, initial_values[0], step, t, toList=True)
 
+    initial_values[1] = [-0.03, 0.05]
+    data[1] = RK4(derivee, initial_values[1], step, t, toList=True)
+
+    initial_values[2] = [0.047, -0.1]
+    data[2] = RK4(derivee, initial_values[2], step, t, toList=True)
+
+    initial_values[3] = [0.049, -0.01]
+    data[3] = RK4(derivee, initial_values[3], step, t, toList=True)
+
+    initial_values[4] = [-0.081, 0.05]
+    data[4] = RK4(derivee, initial_values[4], step, t, toList=True)
+
+    initial_values[5] = [0.0489, -0.1]
+    data[5] = RK4(derivee, initial_values[5], step, t, toList=True)
+
+    initial_values[6] = [0.0499, -0.1]
+    data[6] = RK4(derivee, initial_values[6], step, t, toList=True)
+
     for i in range(len(data)):
-        plt.plot(initial_values[i][0], initial_values[i][1], 'r.', label='start')
+        plt.plot(initial_values[i][0], initial_values[i][1], 'r.')
         plt.plot(data[i][0], data[i][1], '-', label=str(initial_values[i]))
-        plt.plot(data[i][0][-1], data[i][1][-1], 'b.', label='end')
+        plt.plot(data[i][0][-1], data[i][1][-1], 'b.')
 
     plt.plot([-1, 0], [0, -1], 'r--', label="limite")
     print(data)

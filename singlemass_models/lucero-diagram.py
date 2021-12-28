@@ -1,10 +1,9 @@
-#!UTF-8python 
 import numpy as np
 import matplotlib.pyplot as plt
 
-alpha = 0.32
-beta = 100
-gamma = 0.2    
+alpha = 0.52
+beta = 110
+gamma = 0.78   
 delta = 0.97
 
 def derivee(u, t):
@@ -52,7 +51,7 @@ def main():
     step = 0.01
 
     start = 0
-    end = 20
+    end = 40
     t = np.arange(start, end, step)
 
     nlines = 7
