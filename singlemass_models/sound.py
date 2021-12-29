@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.io.wavfile import write, read
 
 M, B, K = 0.476, 100, 200000 #Mass g/cm^2 Damping dyne s/cm^3 Stiffness dyne/cm^3
 x0, eta = 1 * 10 ** -1, 10000 #cm, /cm/cm phenomenological nonlinear coefficient
-Pl = 8000 #dyne/cm^2
+Pl = 5000 #dyne/cm^2
 T = 0.3 #cm glottal height
 c = 100 #cm/s wave velocity
 tau = T / (2 * c)
@@ -57,6 +58,9 @@ def RK4(start, end, step, v_ini, derivee, ordre):
 
 def main():
 
+    samplingRate = 8000
+    amplitude = 10000
+
     step = 0.1
     start = 0
     end = 500
@@ -66,6 +70,9 @@ def main():
     
     t, v = RK4(start, end, step, initial_values, derivee, 2)
 
+    sound_data = amplitude * v[0]
+    wavFile = write("wav/singlemass_models/nonlinear_viscous_initial_pressure/test.wav", samplingRate, sound_data.astype("float32"))
+    
     plt.plot(t, v[0])
     
     plt.xlabel("time (s)")
