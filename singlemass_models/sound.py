@@ -2,10 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io.wavfile import write, read
 
-M, B, K = 0.476, 100, 200000 #Mass g/cm^2 Damping dyne s/cm^3 Stiffness dyne/cm^3
-x0, eta = 1 * 10 ** -1, 10000 #cm, /cm/cm phenomenological nonlinear coefficient
-Pl = 5000 #dyne/cm^2
-T = 0.3 #cm glottal height
+M, B, K = 0.476, 100, 600000 #Mass g/cm^2 Damping dyne s/cm^3 Stiffness dyne/cm^3
+x0, eta = 2 * 10 ** -1, 10000 #cm, /cm/cm phenomenological nonlinear coefficient
+Pl = 8000 #dyne/cm^2
+T = 0.1 #cm glottal height
 c = 100 #cm/s wave velocity
 tau = T / (2 * c)
 
@@ -75,8 +75,8 @@ def main():
     
     plt.plot(t, v[0])
     
-    plt.xlabel("time (s)")
-    plt.ylabel("déplacement du ressort (cm)")
+    plt.xlabel("t")
+    plt.ylabel("u")
     plt.ylim(-1, 1)
     plt.legend()
     plt.show()
