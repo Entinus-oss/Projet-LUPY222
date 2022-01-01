@@ -2,15 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 alpha = 0.32
-beta = 1
-gamma = 0.4
+beta = 0
+gamma = 0.78
 delta = 0.97
 
 def derivee(u, t):
-    '''
-        Soit u = (u0, u1)
-        Équation d'évolution du pendule : d(u0, u1)/dt = (u1, -k ** 2 * u0)
-    '''
+
     # Initialisation de la dérivée
     du = np.empty(u.shape)
     
@@ -53,7 +50,7 @@ def main():
     start = 0
     end = 40
 
-    num = 10
+    num = 100
 
     umin, umax = -0.1, 0.1
     vmin, vmax = -0.1, 0.1
@@ -63,19 +60,19 @@ def main():
 
     for i in range(0, num):
 
-        u = initial_u_values[i]
+        u0 = initial_u_values[i]
 
         for j in range(0, num):
 
-            v = initial_v_values[j]
+            v0 = initial_v_values[j]
 
-            print(u, v)
+            print(u0, v0)
 
-            t, v = RK4(start, end, step, [u, v], derivee, 2)
+            t, v = RK4(start, end, step, [u0, v0], derivee, 2)
 
-            plt.plot(v[0, 0], v[1, 0], 'r.', markersize=1) #initials values
+            #plt.plot(v[0, 0], v[1, 0], 'r.', markersize=1) #initials values
             plt.plot(v[0], v[1], 'k,') #trajectoire
-            plt.plot(v[0, -1], v[1, -1], 'b.') #points finals
+            #plt.plot(v[0, -1], v[1, -1], 'b.') #points finals
 
     plt.plot([-1, 0], [0, -1], 'r--', label="limite")
     plt.xlabel("déplacement (cm)")

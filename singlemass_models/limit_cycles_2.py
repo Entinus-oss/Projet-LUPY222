@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import warnings
-warnings.filterwarnings('ignore')
+from mpl_toolkits import mplot3d
 
 alpha = 0.32
 beta = 100
@@ -50,39 +49,58 @@ def RK4(start, end, step, v_ini, derivee, ordre):
     return t, v
 
 def main():
-    
-    step = 1
+
+    global gamma
+
+    nb_iter = 20
+    gamma_values = np.round(np.linspace(0, 1, nb_iter), 2)
+
+    step = 1  
 
     start = 0
-    end = 40
+    end = 20
 
-    num = 100
+    num = 20 # nombre de points de départs
+
     initial_values = np.linspace(-1, 1, num)
 
-    plot_counter=0
+    fig = plt.figure(figsize = (10, 10))
+    ax = fig.add_subplot(111, projection = '3d')
+    
+    plot_counter = 0
 
-    for i in range(initial_values.shape[0]):
+    for k in range(nb_iter):
 
-        u0 = initial_values[i]
+        gamma = gamma_values[k]
+        
+        for i in range(initial_values.shape[0]):
 
-        for j in range(initial_values.shape[0]):
+            u0 = initial_values[i]
 
-            v0 = initial_values[j]
+            for j in range(initial_values.shape[0]):
+                
+                v0 = initial_values[j]
+                #print(u0, v0)
 
-            t, v = RK4(start, end, step, [u0, v0], derivee, 2)
+                t, v = RK4(start, end, step, [u0, v0], derivee, 2)
 
-            #plt.plot(u0, v0, 'r.', markersize=4) #initials values
-            plt.plot(v[0], v[1], 'k.', markersize=1) #trajectoire
-            plt.plot(v[0, -1], v[1, -1], 'b.', markersize=4) #points finals
+                #plt.plot(u, v, 'r.', markersize=4) #initials values
+                #plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=1) #trajectoire
+                ax.plot3D(gamma_values[k], v[0, -1], v[1, -1], 'b.') #points finals
 
-            plot_counter += 1
-            print("Plotted :", plot_counter, "/", initial_values.shape[0] ** 2, end='\r')
+                plot_counter += 1
+                print("plotted :", plot_counter, '/', initial_values.shape[0] ** 2 * nb_iter, end='\r')
+    
+    print("plotting ...")
 
+    ax.set_xlabel(r"$\gamma$")
+    ax.set_ylabel(r"$u$")
+    ax.set_zlabel(r"$v$")
 
-    plt.xlabel("u")
-    plt.ylabel("v")
-    plt.ylim(-1, 1)
-    plt.xlim(-1, 1)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(-1, 1)
+    ax.set_zlim(-1, 1)
+
     plt.show()
 
     return 0
