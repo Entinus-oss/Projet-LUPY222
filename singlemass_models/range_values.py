@@ -20,26 +20,31 @@ def derivee(u, t):
 
     return du
 
-def RK4(derivee, initial_values, step, t):
-    
-    """Méthodes de Runge-Kutta d'ordre 4. Renvoie un tableau numpy 
-    contenant les valeurs de l'angle theta."""
-    
-    v = np.empty((2, t.shape[0]))
+def RK4(start, end, step, v_ini, derivee, ordre):
+    '''
+        Application de la méthode rk4
+    '''
+    # Création du tableau temps
+    interval = end - start                     # Intervalle
+    num_points = int(interval / step) + 1      # Nombre d'éléments
+    t = np.linspace(start, end, num_points)    # Tableau temps t
+
+    # Initialisation du tableau v
+    v = np.empty((ordre, num_points))
 
     # Condition initiale
-    v[:, 0] = initial_values 
+    v[:, 0] = v_ini 
 
     # Boucle for
-    for i in range(t.size - 1):
+    for i in range(num_points - 1):
         d1 = derivee(v[:, i], t[i])
-        d2 = derivee(v[:, i] + d1 * step / 2, t[i] + step / 2)
-        d3 = derivee(v[:, i] + d2 * step / 2, t[i] + step / 2)
-        d4 = derivee(v[:, i] + d3 * step, t[i] + step)
+        d2 = derivee(v[:, i] + step / 2 * d1, t[i] + step / 2)
+        d3 = derivee(v[:, i] + step / 2 * d2, t[i] + step / 2)
+        d4 = derivee(v[:, i] + step * d3, t[i] + step)
         v[:, i + 1] = v[:, i] + step / 6 * (d1 + 2 * d2 + 2 * d3 + d4)
 
-    # Argument de sortie
-    return v
+    # Sorties
+    return t, v
 
 def main():
     
@@ -47,12 +52,9 @@ def main():
 
     start = 0
     end = 40
-    t = np.arange(start, end, step)
-    num = t.size
 
-    data = np.empty((num, num, 2, num))
-    print("data shape", data.shape)
-    #print("data", data)
+    num = 10
+
     umin, umax = -0.1, 0.1
     vmin, vmax = -0.1, 0.1
 
@@ -69,14 +71,13 @@ def main():
 
             print(u, v)
 
-            data[i][j] = RK4(derivee, [u, v], step, t)
+            t, v = RK4(start, end, step, [u, v], derivee, 2)
 
-            plt.plot(u, v, 'r.', markersize=4) #initials values
-            #plt.plot(data[i, j, 0], data[i, j, 1], 'k.', markersize=1) #trajectoire
-            plt.plot(data[i, j, 0, -1], data[i, j, 1, -1], 'b.', markersize=4) #points finals
+            plt.plot(v[0, 0], v[1, 0], 'r.', markersize=1) #initials values
+            plt.plot(v[0], v[1], 'k,') #trajectoire
+            plt.plot(v[0, -1], v[1, -1], 'b.') #points finals
 
-    #print("data", data[:, :, 0])
-
+    plt.plot([-1, 0], [0, -1], 'r--', label="limite")
     plt.xlabel("déplacement (cm)")
     plt.ylabel("vitesse (cm/s)")
     plt.ylim(-1, 1)
